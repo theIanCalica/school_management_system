@@ -23,14 +23,15 @@ require('TeacherLayout/sidebar.php');
           <table id="datatable">
             <thead>
               <tr>
-                <td>Grades ID</td>
-                <td>Student Name</td>
-                <td>Quarter</td>
-                <td>School Year</td>
-                <td>Written Work</td>
-                <td>Performance Task</td>
-                <td>Assessment</td>
-                <td>Actions</td>
+                <th>Grades ID</th>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Quarter</th>
+                <th>School Year</th>
+                <th>Written Work</th>
+                <th>Performance Task</th>
+                <th>Assessment</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -43,6 +44,7 @@ require('TeacherLayout/sidebar.php');
                   echo "
                     <tr>
                           <td>" . $row['id'] ."</td>
+                          <td>" . $row['studentID'] ."</td>
                           <td>" . $row['studentFirstName'] . $row['studentLastName'] ."</td>
                           <td>" . $row['quarter'] ."</td>
                           <td>" . $row['schoolYear'] ."</td>
@@ -62,14 +64,15 @@ require('TeacherLayout/sidebar.php');
               </tbody>
               <tfoot>
               <tr>
-                  <td>Grades ID</td>
-                  <td>Student Name</td>
-                  <td>Quarter</td>
-                  <td>School Year</td>
-                  <td>Written Work</td>
-                  <td>Performance Task</td>
-                  <td>Assessment</td>
-                  <td>Actions</td>
+              <th>Grades ID</th>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Quarter</th>
+                <th>School Year</th>
+                <th>Written Work</th>
+                <th>Performance Task</th>
+                <th>Assessment</th>
+                <th>Actions</th>
                 </tr>
               </tfoot>
             </table>
@@ -168,12 +171,12 @@ require('TeacherLayout/sidebar.php');
           <h1 class="modal-title fs-5" id="modalHeader">Edit Student Grade</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-        <form action="teacherGradeCRUD/create.php" class="needs-validation" novalidate method="post">
+        <form action="teacherGradeCRUD/update.php" class="needs-validation" novalidate method="post">
           <div class="modal-body">
             <input type="hidden" name="id_edit" id="id_edit">
             <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Student Name</label>
-              <select name="studentID_edit" class="form-select" aria-label="Default Select Example" required>
+              <select name="studentID_edit" class="form-select" aria-label="Default Select Example" required id="studentID_edit">
                 <option value=""selected disabled>Select a class</option>
                   <?php 
                     $query = "SELECT st .* FROM students st INNER JOIN sections s ON s.sectionID = st.sectionID WHERE st.sectionID = $sectionID";
@@ -198,7 +201,7 @@ require('TeacherLayout/sidebar.php');
                   $schoolQuarter = array(1, 2, 3, 4);
 
                   foreach ($schoolQuarter as $quarter) {
-                    echo '<option value="' . $quarter . '" data-schoolQuarterl="' . $quarter . '">' . $quarter . '</option>';
+                    echo '<option value="' . $quarter . '" data-schoolQuarter="' . $quarter . '">' . $quarter . '</option>';
 
                   }
                   ?>
@@ -263,23 +266,31 @@ require('TeacherLayout/sidebar.php');
         
         //Check mo yong console at yong index nung array na lalabas yan yong pagkakasunod nun
         const id = data[0];
-        const studentID = $(this).data('studentid');
-        console.log(studentID);
-        const quarter = data[2];
-        const schoolYear = data[3];
-        const work = data[4];
-        const task = data[5];
-
+        const studentID = data[1];
+        const quarter = data[3];
+        const schoolYear = data[4];
+        const work = data[5];
+        const task = data[6];
+        const assestment = data[7];
 
         $('#studentID_edit option').each(function(){
-          if ($(this).data('studentid') === studentID) {
+          if ($(this).data('studentid')== studentID) {
               $(this).prop('selected', true);
           }
         });
+
+        $('#quarter_edit option').each(function(){
+          if ($(this).data('schoolquarter') == quarter) {
+              $(this).prop('selected', true);
+          }
+        });
+        $('#edit_schoolYear').val(schoolYear);
+        $('#writtenwork_edit').val(work);
+        $('#performancetask_edit').val(task);
+        $('#assessment_edit').val(assestment);
         //Diba may input sa edit modal kunin mo id nila at ilagay yong mga values na meron na tayo ngayon
         $('#id_edit').val(id);
-        $('#activitydescription').val(desc);
-        $('#learningmaterialid_edit').val(learningmaterialid);
+       
         
         //Ang laman ng facultyID variable ay yong id nung teacher kung saang row yong clinick. After nun ichecheck yong data attribute ng
         // lahat ng option after nun kapag may match yon yong iseselect
