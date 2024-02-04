@@ -384,68 +384,76 @@ require('TeacherLayout/sidebar.php');
           <div class="accordion-body">
 
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
         Upload Material
       </button>
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        
-              <form>
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
-      </div>
-      
+<!--create modal-->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="modalHeader" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalHeader">Add Learning Material</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="learningMaterialCRUD/create.php" class="needs-validation" novalidate enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="col-form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+                <div class="invalid-feedback">Title is required.</div>
+            </div>
+            <div class="mb-3">
+              <label for="classID" class="col-form-label">Class</label>
+              <select name="classID" id="classID" class="form-select" aria-label="Default Select Example" required>
+                <option value="" selected disabled>Select a class</option>
+                  <?php 
 
+                  $query = "SELECT c.*,st.sectionName, st.gradeLevel,s.subjectName FROM class c INNER JOIN subject s ON(s.subjectID = c.subjectID) INNER JOIN sections st ON(st.sectionID = c.sectionID)";
+                  $query_run = mysqli_query($conn, $query);
+                  if($query_run){
+                      foreach ($query_run as $row) {
+                      echo "<option value=" . $row['classID'] . ">" . $row['subjectName'] . "-".  $row['sectionName']. "-".$row['gradeLevel'] . "</option>";
+                    }
+                  }
+                  ?>
+              </select>
+              <div class="invalid-feedback">Class is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="score" class="col-form-label">Files</label>
+              <input type="file" name="files[]" id="files" class="form-control">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
   </div>
 </div>
 
   <ul class="list-group" style="width: 100%;">
-    <li class="list-group-item d-flex justify-content-between align-items-center">
+    <?php 
+      $query = "SELECT * FROM learningmaterials where class_id = $classID";
+      $query_run = mysqli_query($conn,$query);
+      if($query_run){
+        foreach($query_run as $row){
+
+        }
+      }
+    ?>
+    <li class='list-group-item d-flex justify-content-between align-items-center'>
       Lesson 1
       <!-- Button trigger modal for Homework 1 -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lesson1Modal">
+      <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#lesson1Modal'>
         Launch Modal
       </button>
     </li>
 
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Lesson 2
-      <!-- Button trigger modal for Homework 2 -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lesson22Modal">
-        Launch Modal
-      </button>
-    </li>
-
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Lesson 3
-      <!-- Button trigger modal for Homework 3 -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lesson3Modal">
-        Launch Modal
-      </button>
-    </li>
-
-    <!-- Add more list items and buttons as needed -->
-
+  
   </ul>
 </div>
 
