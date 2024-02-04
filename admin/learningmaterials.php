@@ -101,7 +101,7 @@
             </div>
             <div class="mb-3">
               <label for="score" class="col-form-label">Files</label>
-              <input type="file" name="files[]" id="files" class="form-control" multiple>
+              <input type="file" name="files[]" id="files" class="form-control">
             </div>
         </div>
         <div class="modal-footer">
@@ -175,7 +175,7 @@
   </div>
 </div>
 <!-- Form for deleting a row -->
-<form action="workActivityCRUD/delete.php" id="deleteForm" method="POST">
+<form action="learningMaterialCRUD/delete.php" id="deleteForm" method="POST">
   <input type="hidden" name="workActivityID_delete" id="workActivityID_delete">
 </form>
 <?php 
