@@ -10,10 +10,10 @@ if(isset($_POST['studentID'])){
   $performancetask = trim($_POST['performancetask']);
   $assessment = trim($_POST['assessment']);
   $studentID = trim($_POST['studentID']);
-
-  $query = "INSERT INTO studentgrades(writtenWork,performanceTask,assestment,schoolYear,quarter,studentID) VALUES(?,?,?,?,?,?)";
+  $subjectID = trim($_POST['subjectID']);
+  $query = "INSERT INTO studentgrades(writtenWork,performanceTask,assestment,schoolYear,quarter,studentID,subjectID) VALUES(?,?,?,?,?,?,?)";
   $stmt = mysqli_prepare($conn,$query);
-  $stmt->bind_param("dddiii", $writtenwork,$performancetask, $assessment, $schoolyear, $quarter, $studentID);
+  $stmt->bind_param("dddiiii", $writtenwork,$performancetask, $assessment, $schoolyear, $quarter, $studentID,$subjectID);
 
     if($stmt->execute()){
       // Check the affected rows to verify if the insertion was successful

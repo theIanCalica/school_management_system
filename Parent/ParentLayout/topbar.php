@@ -7,10 +7,11 @@
     </button>
 
     <!-- Additional button horizontally aligned with the first one -->
+    <a href="ParentGrades.php">
     <button class="btn btn-primary btn-lg text-white rounded-0">
         Student Grades
     </button>
-
+    </a>
 
     <!-- Additional button horizontally aligned with the first one -->
     <a href="parentAccount.php">

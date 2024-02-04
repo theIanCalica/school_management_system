@@ -2,8 +2,18 @@
 require('TeacherLayout/header.php');
 require('TeacherLayout/topbar.php');
 require('../db/config.php');
-print_r($_SESSION);
-$sectionID = trim($_SESSION['sectionID'])
+
+$sectionID = trim($_SESSION['sectionID']);
+$classID = trim($_SESSION['classID']);
+$query = "SELECT subjectID FROM class WHERE classID = $classID";
+$query_run = mysqli_query($conn,$query);
+if($query_run){
+  foreach($query_run as $row){
+    $subjectID = $row['subjectID'];
+  }
+}
+  echo $subjectID;
+
 ?>
 
 <body>
@@ -91,7 +101,7 @@ require('TeacherLayout/sidebar.php');
             
             <form action="teacherGradeCRUD/create.php" class="needs-validation" novalidate method="post">
                 <div class="modal-body">
-
+              <input type="hidden" name="subjectID" value="<?php echo $subjectID;?>">
                 <!--STUDENT SELECT NAME-->
                    <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Student Name</label>

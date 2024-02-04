@@ -8,7 +8,7 @@ require('StudentLayout/topbar.php');
     <!-- Content Row -->
     <div class="row">
     <?php 
-        
+        $query = "SELECT * FROM "
     ?>
     <div class="col-xl-3 col-md-6 mb-4">
         <a href="StudentSubjects/Filipino.php" class="card-link">

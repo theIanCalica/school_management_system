@@ -1,7 +1,23 @@
 <?php
 
+require('../db/config.php');
 require('ParentLayout/header.php');
 require('ParentLayout/topbar.php');
+$parentID = $_SESSION['parentID'];
+$quarter = 1;
+if(isset($_GET['quarter'])){
+  $quarter = $_GET['quarter'];
+} else {
+  $quarter = 1;
+}
+$query = "SELECT studentID from students WHERE parentID = $parentID";
+$query_run = mysqli_query($conn,$query);
+if($query_run){
+  foreach($query_run as $row){
+    $studentID = $row['studentID'];
+  } 
+  echo $studentID;
+}
 
 ?>
 
@@ -21,37 +37,31 @@ require('ParentLayout/sidebar.php');
         <table class="table" style="margin-top: 20px;">
           <thead>
             <tr>
+              <th>Subject</th>
               <th scope="col">Written Work</th>
               <th scope="col">Performance Task</th>
               <th scope="col">Assessment</th>
             </tr>  
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <?php
-                  $query = "SELECT * FROM studentGrades WHERE writtenWork = ?";
-                ?>
-              </td>
-            </tr>
+            <?php 
+              $query = "SELECT studentGrades.*,subject.subjectName FROM studentGrades INNER JOIN subject ON subject.subjectID = studentGrades.subjectID WHERE studentID = $studentID AND quarter = $quarter";
+              $query_run = mysqli_query($conn,$query);
+              if($query_run){
+                foreach($query_run as $row){
+                  echo "
+                      <tr>
+                      <td>" . $row['subjectName'] . "</td>
+                          <td>" . $row['writtenWork'] . "</td>
+                          <td>" . $row['performanceTask'] . "</td>
+                          <td>" . $row['assestment'] . "</td>
+                      </tr>
+                  ";
 
-
-            <tr>
-              <td>
-                <?php
-                  $query = "SELECT * FROM studentGrades WHERE performanceTask = ?";
-                ?>
-              </td>
-            </tr>
-
-
-            <tr>
-              <td>
-                <?php
-                  $query = "SELECT * FROM studentGrades WHERE assessment = ?";
-                ?>
-              </td>
-            </tr>
+                 
+                } 
+              }
+            ?>
 
           </tbody>
         </table>
