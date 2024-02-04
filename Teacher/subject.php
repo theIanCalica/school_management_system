@@ -396,27 +396,11 @@ require('TeacherLayout/sidebar.php');
         </div>
         <div class="modal-body">
           <form method="post" action="learningMaterialCRUD/create.php" class="needs-validation" novalidate enctype="multipart/form-data">
+            <input type="hidden" name="classID" value="<?php echo $classID?>">
             <div class="mb-3">
                 <label for="title" class="col-form-label">Title</label>
                 <input type="text" class="form-control" id="title" name="title" required>
                 <div class="invalid-feedback">Title is required.</div>
-            </div>
-            <div class="mb-3">
-              <label for="classID" class="col-form-label">Class</label>
-              <select name="classID" id="classID" class="form-select" aria-label="Default Select Example" required>
-                <option value="" selected disabled>Select a class</option>
-                  <?php 
-
-                  $query = "SELECT c.*,st.sectionName, st.gradeLevel,s.subjectName FROM class c INNER JOIN subject s ON(s.subjectID = c.subjectID) INNER JOIN sections st ON(st.sectionID = c.sectionID)";
-                  $query_run = mysqli_query($conn, $query);
-                  if($query_run){
-                      foreach ($query_run as $row) {
-                      echo "<option value=" . $row['classID'] . ">" . $row['subjectName'] . "-".  $row['sectionName']. "-".$row['gradeLevel'] . "</option>";
-                    }
-                  }
-                  ?>
-              </select>
-              <div class="invalid-feedback">Class is required</div>
             </div>
             <div class="mb-3">
               <label for="score" class="col-form-label">Files</label>
@@ -441,9 +425,11 @@ require('TeacherLayout/sidebar.php');
           echo " <li class='list-group-item d-flex justify-content-between align-items-center'>
           ".$row['title'] ."
           
-          <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#lesson1Modal'>
-            Launch Modal
+          <a href=".substr($row['filePath'],3) ." download>
+          <button type='button' class='btn btn-primary'>
+            Download
           </button>
+          </a>
         </li>";
         }
       }

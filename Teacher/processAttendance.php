@@ -27,6 +27,8 @@ if(isset($_POST['attendanceDate']) && isset($_POST['status'])){
             mysqli_stmt_execute($stmt);
         }
 
+        $_SESSION['status'] = "Successfully recorded!";
+        $_SESSION['status_code'] = "success";
         // Close the statement
         mysqli_stmt_close($stmt);
         header('location: subject.php');
