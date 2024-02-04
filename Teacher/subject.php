@@ -525,7 +525,7 @@ require('TeacherLayout/sidebar.php');
   <form action="processAttendance.php" method="POST">
     <div class="mb-3">
     <label for="attendanceDate" class="form-label">Attendance Date</label>
-    <input type="date" name="attendanceDate" id="attendanceDate" class="form-control">
+    <input type="date" name="attendanceDate" id="attendanceDate" class="form-control" required>
     </div>
     
   <table id="datatablegrade" class="display" style="width:100%;">
@@ -559,10 +559,10 @@ require('TeacherLayout/sidebar.php');
               echo "
               <td> 
               <select class='form-select' name='status[" . $row['studentID'] . "]' required>
-              <option value='' selected disabled>Select</option>
-              <option value='Present'>Present</option>
-              <option value='Absent'>Absent</option>
-              <option value='Late'>Late</option>
+                <option value='' selected disabled>Select</option>
+                <option value='Present'>Present</option>
+                <option value='Absent'>Absent</option>
+                <option value='Late'>Late</option>
             </select>
               </td>";
               echo "</tr>";
