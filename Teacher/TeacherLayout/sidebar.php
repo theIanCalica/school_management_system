@@ -16,7 +16,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html" style="font-size: 40px;">
+                <a class="nav-link" href="subject.php" style="font-size: 40px;">
                     <i class="fi fi-rr-edit"></i>
                     <span>Content</span></span></a>
             </li>
@@ -26,7 +26,7 @@
 
 <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html" style="font-size: 40px;">
+                <a class="nav-link" href="teacherGrade.php" style="font-size: 40px;">
                     <i class="fi fi-rr-document"></i>
                     <span>Gradebook</span></span></a>
             </li>

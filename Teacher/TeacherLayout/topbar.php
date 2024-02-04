@@ -20,10 +20,13 @@
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="padding: 0 0 0 0;">
             <!-- Leftmost rectangular button -->
+            <a href="teacher.php">
             <button class="btn btn-danger btn-lg text-white mr-0 rounded-0">
                 Subject
             </button>
 
+            </a>
+           
             <!-- Additional button horizontally aligned with the first one -->
             <a href="teacherAccount.php">
             <button class="btn btn-info btn-lg text-white rounded-0">

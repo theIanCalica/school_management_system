@@ -6,6 +6,8 @@ require('../db/config.php');
 if(isset($_GET['classID'])){
   $classID = $_GET['classID'];
   $sectionID = $_GET['sectionID'];
+  $_SESSION['classID'] = $classID;
+  $_SESSION['sectionID'] = $sectionID;
 }else {
   $classID = $_SESSION['classID'];
 $sectionID = $_SESSION['sectionID'];
