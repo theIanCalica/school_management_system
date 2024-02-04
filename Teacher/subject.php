@@ -2,9 +2,15 @@
 require('TeacherLayout/header.php');
 require('TeacherLayout/topbar.php');
 require('../db/config.php');
-print_r($_GET);
-$classID = $_GET['classID'];
-$sectionID = $_GET['sectionID'];
+
+if(isset($_GET['classID'])){
+  $classID = $_GET['classID'];
+  $sectionID = $_GET['sectionID'];
+}else {
+  $classID = $_SESSION['classID'];
+$sectionID = $_SESSION['sectionID'];
+}
+
 $query = "SELECT subject.subjectName FROM class INNER JOIN subject ON subject.subjectID = class.subjectID WHERE class.classID = ?";
 $stmt = mysqli_prepare($conn,$query);
 $stmt->bind_param("i", $classID);
@@ -82,6 +88,9 @@ require('TeacherLayout/sidebar.php');
 </div>
 
   <ul class="list-group" style="width: 100%;">
+    <?php 
+      $query = "SELECT w.* FROM workActivity w INNER JOIN class c ON(c.classID)";
+    ?>
     <li class="list-group-item d-flex justify-content-between align-items-center">
       Homework 1
       <!-- Button trigger modal for Homework 1 -->
@@ -526,6 +535,8 @@ require('TeacherLayout/sidebar.php');
     <div class="mb-3">
     <label for="attendanceDate" class="form-label">Attendance Date</label>
     <input type="date" name="attendanceDate" id="attendanceDate" class="form-control" required>
+    <input type="hidden" name="classID" value="<?php echo $classID;?>">
+    <input type="hidden" name="sectionID" value="<?php echo $sectionID;?>">
     </div>
     
   <table id="datatablegrade" class="display" style="width:100%;">

@@ -36,8 +36,9 @@
                   echo "
                       <tr>
                           <td>" . $row['id'] . "</td>
-                          <td>" . $row['class_id'] . "</td>
                           <td>" . $row['title'] . "</td>
+                          <td>" . $row['class_id'] . "</td>
+                        
                           <td><a href=". substr($row['filePath'],3) ." target='_blank' download><button class='btn btn-outline-primary'>Download</button></a></td>
                           
                           <td>
@@ -115,28 +116,22 @@
 
 
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modalHeader" aria-hidden="true">
-  <div class="modal-dialog">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="modalHeader">Edit Activity</h1>
+          <h1 class="modal-title fs-5" id="modalHeader">Add Learning Material</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="post" action="workActivityCRUD/update.php" class="needs-validation" novalidate enctype="multipart/form-data">
-            <input type="hidden" name="id" id="id_edit">
+          <form method="post" action="learningMaterialCRUD/create.php" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="title" class="col-form-label">Activity Title</label>
-                <input type="text" class="form-control" id="title_edit" name="title_edit" required>
+                <label for="title" class="col-form-label">Title</label>
+                <input type="text" class="form-control" id="edit_title" name="title" required>
                 <div class="invalid-feedback">Title is required.</div>
             </div>
             <div class="mb-3">
-                <label for="desc" class="col-form-label">Description</label>
-                <textarea name="desc_edit" id="desc_edit" cols="15" rows="4" class="form-control" required></textarea>
-                <div class="invalid-feedback">Description is required</div>
-            </div>
-            <div class="mb-3">
               <label for="classID" class="col-form-label">Class</label>
-              <select name="classID_edit" id="classID_edit" class="form-select" aria-label="Default Select Example" required>
+              <select name="classID" id="edit_classID" class="form-select" aria-label="Default Select Example" required>
                 <option value="" selected disabled>Select a class</option>
                   <?php 
 
@@ -144,7 +139,7 @@
                   $query_run = mysqli_query($conn, $query);
                   if($query_run){
                       foreach ($query_run as $row) {
-                      echo "<option value=" . $row['classID'] . " data-classid=".$row['classID'].">" . $row['subjectName'] . "-".  $row['sectionName']. "-".$row['gradeLevel'] . "</option>";
+                      echo "<option value=" . $row['classID'] . ">" . $row['subjectName'] . "-".  $row['sectionName']. "-".$row['gradeLevel'] . "</option>";
                     }
                   }
                   ?>
@@ -152,18 +147,8 @@
               <div class="invalid-feedback">Class is required</div>
             </div>
             <div class="mb-3">
-              <label for="dueDate" class="col-form-label">Due Date </label>
-              <input type="date" name="dueDate_edit" id="dueDate_edit" class="form-control" required>
-              <div class="invalid-feedback">Due Date is required</div>
-            </div>
-            <div class="mb-3">
-              <label for="score" class="col-form-label">Score</label>
-              <input type="number" name="score_edit" id="score_edit" class="form-control" step="1" required oninput="validateNumberInput()" />
-              <div class="invalid-feedback">Score is required</div>
-            </div>
-            <div class="mb-3">
               <label for="score" class="col-form-label">Files</label>
-              <input type="file" name="files[]" class="form-control" multiple>
+              <input type="file" name="files[]" id="edit_files" class="form-control">
             </div>
         </div>
         <div class="modal-footer">
@@ -209,22 +194,14 @@
         console.log(data);
         
         const id = data[0];
-        const classID = data[1];
-        const title = data[2];
-        const description = data[3];
-        const dueDate = data[4];
-        const score = data[5];
-
-        $('#id_edit').val(id);
-        $('#title_edit').val(title);
-        $('#desc_edit').val(description);
-        $('#classID_edit option').each(function(){
+        const title = data[1];
+        const classID = data[2];
+        $('#edit_classID option').each(function(){
           if($(this).data('classid') == classID){
             $(this).prop('selected', true);
           }
         });
-        $('#dueDate_edit').val(dueDate);
-        $('#score_edit').val(score);
+      
       });
 
         $('#datatable').on('click', '.deleteBtn', function(){

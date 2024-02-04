@@ -14,7 +14,7 @@
       $affected_rows = $stmt->affected_rows;
 
       if($affected_rows > 0) {
-          $_SESSION['status'] = "Successfully added";
+          $_SESSION['status'] = "Successfully deleted";
           $_SESSION['status_code'] = "success";
           header('location: ../learningmaterials.php');
       } else {
