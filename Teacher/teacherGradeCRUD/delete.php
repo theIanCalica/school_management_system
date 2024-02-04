@@ -1,6 +1,5 @@
 <?php 
-//yah
-   require('../phpcodes/connection.php');
+   require('../../db/config.php');
   session_start();
   if(isset($_POST['grade_delete'])){
    
@@ -10,9 +9,9 @@
     $studentGradesID = $_POST['grade_delete'];
 
     //query mo lang to
-    $query = "DELETE FROM studentgrades WHERE studentGradesID = ?";
+    $query = "DELETE FROM studentgrades WHERE id = ?";
     $stmt = mysqli_prepare($conn,$query);
-    $stmt->bind_param("i", $sectionID);
+    $stmt->bind_param("i", $studentGradesID);
 
     //Execute the query
     if($stmt->execute()){

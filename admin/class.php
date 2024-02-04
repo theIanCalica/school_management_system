@@ -126,7 +126,7 @@
 
 
 <!-- Edit -->
-  <div class="modal fade" id="editSubjectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editSubjectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -152,7 +152,7 @@
       
         ?>
     </select>
-</div>
+  </div>
           <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Assigned Section</label>
               <select name="edit_sectionid" class="form-select" aria-label="Default Select Example" required id="edit_sectionid">

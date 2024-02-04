@@ -1,10 +1,9 @@
 <?php 
 session_start();
-require('../phpcodes/connection.php');  
+require('../../db/config.php');  
 
-if(isset($_POST['fname'])){
-  $fname =  trim($_POST['fname']);
-  $lname = trim($_POST['lname']);
+if(isset($_POST['studentID'])){
+  print_r($_POST);
   $quarter = trim($_POST['quarter']);
   $schoolyear = trim($_POST['schoolyear']);
   $writtenwork = trim($_POST['writtenwork']);
@@ -12,7 +11,7 @@ if(isset($_POST['fname'])){
   $assessment = trim($_POST['assessment']);
   $studentID = trim($_POST['studentID']);
 
-  $query = "INSERT INTO studentgrades(writtenWork,performanceTask,assessment,schoolYear,quarter,studentID) VALUES(?,?,?,?,?,?)";
+  $query = "INSERT INTO studentgrades(writtenWork,performanceTask,assestment,schoolYear,quarter,studentID) VALUES(?,?,?,?,?,?)";
   $stmt = mysqli_prepare($conn,$query);
   $stmt->bind_param("dddiii", $writtenwork,$performancetask, $assessment, $schoolyear, $quarter, $studentID);
 

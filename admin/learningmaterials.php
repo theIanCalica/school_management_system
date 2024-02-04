@@ -14,7 +14,7 @@
       <div class="content-2">
         <div class="recent-payments">
           <div class="title">
-              <h2>Work Activity Records</h2>
+              <h2>Learning Material Records</h2>
           </div>
           <table id="datatable">
             <thead>
@@ -123,8 +123,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="post" action="learningMaterialCRUD/create.php" class="needs-validation" novalidate enctype="multipart/form-data">
-            <div class="mb-3">
+          <form method="post" action="learningMaterialCRUD/update.php" class="needs-validation" novalidate enctype="multipart/form-data">
+            <input type="hidden" name="id" id="editID">
+          <div class="mb-3">
                 <label for="title" class="col-form-label">Title</label>
                 <input type="text" class="form-control" id="edit_title" name="title" required>
                 <div class="invalid-feedback">Title is required.</div>
@@ -139,7 +140,7 @@
                   $query_run = mysqli_query($conn, $query);
                   if($query_run){
                       foreach ($query_run as $row) {
-                      echo "<option value=" . $row['classID'] . ">" . $row['subjectName'] . "-".  $row['sectionName']. "-".$row['gradeLevel'] . "</option>";
+                      echo "<option value=" . $row['classID'] . " data-classid=".$row['classID'] .">" . $row['subjectName'] . "-".  $row['sectionName']. "-".$row['gradeLevel'] . "</option>";
                     }
                   }
                   ?>
@@ -196,6 +197,8 @@
         const id = data[0];
         const title = data[1];
         const classID = data[2];
+        $('#editID').val(id);
+        $('#edit_title').val(title);
         $('#edit_classID option').each(function(){
           if($(this).data('classid') == classID){
             $(this).prop('selected', true);
