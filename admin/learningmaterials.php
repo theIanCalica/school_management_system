@@ -76,7 +76,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="post" action="workActivityCRUD/create.php" class="needs-validation" novalidate enctype="multipart/form-data">
+          <form method="post" action="learningMaterialCRUD/create.php" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="col-form-label">Title</label>
                 <input type="text" class="form-control" id="title" name="title" required>
