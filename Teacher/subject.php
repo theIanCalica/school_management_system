@@ -370,7 +370,6 @@ require('TeacherLayout/sidebar.php');
     
 
 
-<<<<<<< HEAD
             <!-- Accordion Item #2 -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
@@ -380,20 +379,6 @@ require('TeacherLayout/sidebar.php');
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-=======
-
-
-
-  <!-- Accordion Item #2 -->
-  <div class="accordion-item">
-      <h2 class="accordion-header" id="headingTwo">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Learning Materials
-          </button>
-      </h2>
-      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
->>>>>>> 84f2e5e4c4dc44a86ce1ca5c6ad9ab979805d9a4
 
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -449,21 +434,21 @@ require('TeacherLayout/sidebar.php');
 
   <ul class="list-group" style="width: 100%;">
     <?php 
-      $query = "SELECT * FROM learningmaterials where class_id = $classID";
+      $query = "SELECT l.* FROM learningmaterials l where l.class_id = $classID";
       $query_run = mysqli_query($conn,$query);
       if($query_run){
         foreach($query_run as $row){
-
+          echo " <li class='list-group-item d-flex justify-content-between align-items-center'>
+          ".$row['title'] ."
+          
+          <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#lesson1Modal'>
+            Launch Modal
+          </button>
+        </li>";
         }
       }
     ?>
-    <li class='list-group-item d-flex justify-content-between align-items-center'>
-      Lesson 1
-      <!-- Button trigger modal for Homework 1 -->
-      <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#lesson1Modal'>
-        Launch Modal
-      </button>
-    </li>
+   
 
   
   </ul>
