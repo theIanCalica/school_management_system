@@ -11,5 +11,7 @@
         <li><span class="links"><a href="section.php">Sections</a></span></li>
         <li><span class="links"><a href="subject.php">Subjects</a></span></li>
         <li><span class="links"><a href="class.php">Classes</a></span></li>
+        <li><span class="links"><a href="learningmaterials.php">Learning Materials</a></span></li>
+        <li><span class="links"><a href="workactivity.php">Activities</a></span></li>
     </ul>
 </div>
