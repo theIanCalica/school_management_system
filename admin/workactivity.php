@@ -81,13 +81,13 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="modalHeader">Create Section</h1>
+          <h1 class="modal-title fs-5" id="modalHeader">Add Activity</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form method="post" action="workActivityCRUD/create.php" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="title" class="col-form-label">Work activity title</label>
+                <label for="title" class="col-form-label">Activity title</label>
                 <input type="text" class="form-control" id="title" name="title" required>
                 <div class="invalid-feedback">Title is required.</div>
             </div>
@@ -138,6 +138,66 @@
 </div>
 
 
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modalHeader" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalHeader">Edit Activity</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="workActivityCRUD/update.php" class="needs-validation" novalidate enctype="multipart/form-data">
+            <input type="hidden" name="id" id="id_edit">
+            <div class="mb-3">
+                <label for="title" class="col-form-label">Activity Title</label>
+                <input type="text" class="form-control" id="title_edit" name="title_edit" required>
+                <div class="invalid-feedback">Title is required.</div>
+            </div>
+            <div class="mb-3">
+                <label for="desc" class="col-form-label">Description</label>
+                <textarea name="desc_edit" id="desc_edit" cols="15" rows="4" class="form-control" required></textarea>
+                <div class="invalid-feedback">Description is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="classID" class="col-form-label">Class</label>
+              <select name="classID_edit" id="classID_edit" class="form-select" aria-label="Default Select Example" required>
+                <option value="" selected disabled>Select a class</option>
+                  <?php 
+
+                  $query = "SELECT c.*,st.sectionName, st.gradeLevel,s.subjectName FROM class c INNER JOIN subject s ON(s.subjectID = c.subjectID) INNER JOIN sections st ON(st.sectionID = c.sectionID)";
+                  $query_run = mysqli_query($conn, $query);
+                  if($query_run){
+                      foreach ($query_run as $row) {
+                      echo "<option value=" . $row['classID'] . " data-classid=".$row['classID'].">" . $row['subjectName'] . "-".  $row['sectionName']. "-".$row['gradeLevel'] . "</option>";
+                    }
+                  }
+                  ?>
+              </select>
+              <div class="invalid-feedback">Class is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="dueDate" class="col-form-label">Due Date </label>
+              <input type="date" name="dueDate_edit" id="dueDate_edit" class="form-control" required>
+              <div class="invalid-feedback">Due Date is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="score" class="col-form-label">Score</label>
+              <input type="number" name="score_edit" id="score_edit" class="form-control" step="1" required oninput="validateNumberInput()" />
+              <div class="invalid-feedback">Score is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="score" class="col-form-label">Files</label>
+              <input type="file" name="files[]" class="form-control" multiple>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+  </div>
+</div>
 <!-- Form for deleting a row -->
 <form action="workActivityCRUD/delete.php" id="deleteForm" method="POST">
   <input type="hidden" name="workActivityID_delete" id="workActivityID_delete">
@@ -163,7 +223,7 @@
     $(document).ready(function(){
       $('#datatable').on('click', '.editBtn', function(){
         //Show modal
-        $('#editTeacherModal').modal('show');
+        $('#editModal').modal('show');
         
         //Get the values on the tablex
         $tr = $(this).closest('tr'); 
@@ -172,34 +232,23 @@
         }).get();
         console.log(data);
         
-        //Check mo yong console at yong index nung array na lalabas yan yong pagkakasunod nun
-        const sectionID = data[0];
-        const sectionName = data[1];
+        const id = data[0];
+        const classID = data[1];
+        const title = data[2];
+        const description = data[3];
+        const dueDate = data[4];
+        const score = data[5];
 
-        //yong data ay galing sa editbtn may data attribute siya
-        const facultyID = $(this).data("facultyid");
-       
-        //nasa table lang to check mo console at index 2 yon
-        const gradeLvl = data[2];
-        console.log(gradeLvl);
-        //Diba may input sa edit modal kunin mo id nila at ilagay yong mga values na meron na tayo ngayon
-        $('#sectionEdit').val(sectionName);
-        $('#sectionIDedit').val(sectionID);
-        //Ang laman ng facultyID variable ay yong id nung teacher kung saang row yong clinick. After nun ichecheck yong data attribute ng
-        // lahat ng option after nun kapag may match yon yong iseselect
-        $('#facultyID_edit option').each(function () {
-            if ($(this).data('facultyid') === facultyID) {
-              $(this).prop('selected', true);
-            }
+        $('#id_edit').val(id);
+        $('#title_edit').val(title);
+        $('#desc_edit').val(description);
+        $('#classID_edit option').each(function(){
+          if($(this).data('classid') == classID){
+            $(this).prop('selected', true);
+          }
         });
-
-        $('#gradeLvl_edit option').each(function () {
-            if ($(this).data('grd') == gradeLvl) {
-              $(this).prop('selected', true);
-            } else {
-              console.log('mali');
-            }
-        });
+        $('#dueDate_edit').val(dueDate);
+        $('#score_edit').val(score);
       });
 
         $('#datatable').on('click', '.deleteBtn', function(){

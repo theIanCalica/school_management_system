@@ -8,41 +8,41 @@
     require('layout/navbar.php');
   ?>
 <div class="content">
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo" style="margin-left: 20px; margin-bottom: 2px; background-color: red; border: 0; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.10),0 17px 50px 0 rgba(0,0,0,0.10); ">Open modal for @mdo</button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo" style="margin-left: 20px; margin-bottom: 2px; background-color: red; border: 0; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.10),0 17px 50px 0 rgba(0,0,0,0.10); ">Add work activity</button>
     <div class="cards">
     </div>
       <div class="content-2">
         <div class="recent-payments">
           <div class="title">
-              <h2>Section Records</h2>
+              <h2>Work Activity Records</h2>
           </div>
           <table id="datatable">
             <thead>
               <tr>
-                <td>Section ID</td>
-                <td>Section Name</td>
-                <td>Grade Level</td>
-                <td>Faculty Name</td>
-                <td>Actions</td>
+                <th>Learning Material ID</th>
+                <th>Title</th>
+                <th>Class</th>
+                <th>Download</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <?php 
-              $query = "SELECT sections.*, faculty.facultyid ,concat(faculty.facultyFirstname,faculty.facultyLastName) as facultyName FROM sections
-              INNER JOIN faculty ON faculty.facultyID = sections.facultyID";
+              $query = "SELECt l.* FROM learningMaterials l INNER JOIN class c ON c.classID = l.class_id";
               $query_run = mysqli_query($conn, $query);
               
               if($query_run) {
                 foreach ($query_run as $row) {
                   echo "
                       <tr>
-                          <td>" . $row['sectionID'] . "</td>
-                          <td>" . $row['sectionName'] . "</td>
-                          <td>" . $row['gradelevel'] . "</td>
-                          <td>" . $row['facultyName'] . "</td>
+                          <td>" . $row['id'] . "</td>
+                          <td>" . $row['class_id'] . "</td>
+                          <td>" . $row['title'] . "</td>
+                          <td><a href=". substr($row['filePath'],3) ." target='_blank' download><button class='btn btn-outline-primary'>Download</button></a></td>
+                          
                           <td>
-                              <i style='color:green' class='fi fi-rr-edit editBtn' data-facultyid='" . $row['facultyID'] . "'></i>
-                              <i style='color:red;' class='fi fi-rr-trash deleteBtn'></i>
+                              <i style='color:green' class='fi fi-rr-edit editBtn' data-facultyid=''></i>
+                              <i style='color:red;' class='fi fi-rr-trash deleteBtn' data-id=".$row['id'] ."></i>
                           </td>
                       </tr>";
               }
@@ -50,6 +50,15 @@
               }
               ?>
             </tbody>
+            <tfoot>
+              <tr>
+                <th>Learning Material ID</th>
+                <th>Title</th>
+                <th>Class</th>
+                <th>Download</th>
+                <th>Actions</th>
+              </tr>
+            </tfoot>
           </table>
       </div>
     </div>
@@ -61,137 +70,136 @@
 <!--create modal-->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="modalHeader" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalHeader">Create Section</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalHeader">Add Learning Material</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="workActivityCRUD/create.php" class="needs-validation" novalidate enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="col-form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+                <div class="invalid-feedback">Title is required.</div>
             </div>
-            <div class="modal-body">
-                <form method="post" action="sectionCRUD/create.php">
-                    <div class="mb-3">
-                        <label for="sectionname" class="col-form-label">Section Name:</label>
-                        <input type="text" class="form-control" id="sectionname" name="sectionname">
-                    </div>
-    <div class="mb-3">
-    <label for="recipient-name" class="col-form-label">Faculty Name</label>
-    <select name="facultyID" class="form-select" aria-label="Default Select Example">
-        <?php 
+            <div class="mb-3">
+              <label for="classID" class="col-form-label">Class</label>
+              <select name="classID" id="classID" class="form-select" aria-label="Default Select Example" required>
+                <option value="" selected disabled>Select a class</option>
+                  <?php 
 
-        $query = "SELECT * FROM faculty";
-        $query_run = mysqli_query($conn, $query);
-        if($query_run){
-            foreach ($query_run as $row) {
-            echo "<option value=" . $row['facultyID'] . ">" . $row['facultyFirstName'] . " ".  $row['facultyLastName']  . "</option>";
-          }
-        }
-      
-        ?>
-    </select>
-</div>
-
-    <div class="mb-3">
-    <label for="recipient-name" class="col-form-label">Grade Level</label>
-    <select name="gradelvl" class="form-select" aria-label="Default Select Example">
-        <?php 
-        // Assuming the grade levels are predefined
-        $gradeLevels = array(0, 1, 2, 3, 4, 5, 6);
-
-        foreach ($gradeLevels as $grade) {
-            echo "<option value=" . $grade . ">" . $grade . "</option>";
-        }
-        ?>
-    </select>
-</div>
+                  $query = "SELECT c.*,st.sectionName, st.gradeLevel,s.subjectName FROM class c INNER JOIN subject s ON(s.subjectID = c.subjectID) INNER JOIN sections st ON(st.sectionID = c.sectionID)";
+                  $query_run = mysqli_query($conn, $query);
+                  if($query_run){
+                      foreach ($query_run as $row) {
+                      echo "<option value=" . $row['classID'] . ">" . $row['subjectName'] . "-".  $row['sectionName']. "-".$row['gradeLevel'] . "</option>";
+                    }
+                  }
+                  ?>
+              </select>
+              <div class="invalid-feedback">Class is required</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+            <div class="mb-3">
+              <label for="score" class="col-form-label">Files</label>
+              <input type="file" name="files[]" id="files" class="form-control" multiple>
             </div>
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
+  </div>
 </div>
 
 
-
-<!-- Edit modal -->
-<div class="modal fade" id="editTeacherModal" tabindex="-1" aria-labelledby="modalHeader" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalHeader">Edit Section</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modalHeader" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalHeader">Edit Activity</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="workActivityCRUD/update.php" class="needs-validation" novalidate enctype="multipart/form-data">
+            <input type="hidden" name="id" id="id_edit">
+            <div class="mb-3">
+                <label for="title" class="col-form-label">Activity Title</label>
+                <input type="text" class="form-control" id="title_edit" name="title_edit" required>
+                <div class="invalid-feedback">Title is required.</div>
             </div>
-            <div class="modal-body">
-                <form method="post" action="sectionCRUD/update.php">
-                    
-                    <input type="hidden" name="sectionIDedit" id="sectionIDedit">
-                    <div class="mb-3">
-                        <label for="sectionEdit" class="col-form-label">Section Name:</label>
-                        <input type="text" class="form-control" id="sectionEdit" name="sectionEdit">
-                    </div>
-                   <div class="mb-3">
-    <label for="recipient-name" class="col-form-label">Faculty Name</label>
-    <select name="facultyID_edit" id="facultyID_edit" class="form-select" aria-label="Default Select Example">
-        <?php 
+            <div class="mb-3">
+                <label for="desc" class="col-form-label">Description</label>
+                <textarea name="desc_edit" id="desc_edit" cols="15" rows="4" class="form-control" required></textarea>
+                <div class="invalid-feedback">Description is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="classID" class="col-form-label">Class</label>
+              <select name="classID_edit" id="classID_edit" class="form-select" aria-label="Default Select Example" required>
+                <option value="" selected disabled>Select a class</option>
+                  <?php 
 
-        $query = "SELECT * FROM faculty";
-        $query_run = mysqli_query($conn, $query);
-        if($query_run){
-            foreach ($query_run as $row) {
-            echo "<option value=" . $row['facultyID'] . " data-facultyid=".$row['facultyID'].">" . $row['facultyFirstName'] . " ".  $row['facultyLastName']  . "</option>";
-          }
-        }
-      
-        ?>
-    </select>
+                  $query = "SELECT c.*,st.sectionName, st.gradeLevel,s.subjectName FROM class c INNER JOIN subject s ON(s.subjectID = c.subjectID) INNER JOIN sections st ON(st.sectionID = c.sectionID)";
+                  $query_run = mysqli_query($conn, $query);
+                  if($query_run){
+                      foreach ($query_run as $row) {
+                      echo "<option value=" . $row['classID'] . " data-classid=".$row['classID'].">" . $row['subjectName'] . "-".  $row['sectionName']. "-".$row['gradeLevel'] . "</option>";
+                    }
+                  }
+                  ?>
+              </select>
+              <div class="invalid-feedback">Class is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="dueDate" class="col-form-label">Due Date </label>
+              <input type="date" name="dueDate_edit" id="dueDate_edit" class="form-control" required>
+              <div class="invalid-feedback">Due Date is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="score" class="col-form-label">Score</label>
+              <input type="number" name="score_edit" id="score_edit" class="form-control" step="1" required oninput="validateNumberInput()" />
+              <div class="invalid-feedback">Score is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="score" class="col-form-label">Files</label>
+              <input type="file" name="files[]" class="form-control" multiple>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+  </div>
 </div>
-    <div class="mb-3">
-    <label for="recipient-name" class="col-form-label">Grade Level</label>
-    <select name="gradeLvl_edit" id="gradeLvl_edit" class="form-select" aria-label="Default Select Example">
-        <?php 
-        // Assuming the grade levels are predefined
-        $gradeLevels = array(0, 1, 2, 3, 4, 5, 6);
+<!-- Form for deleting a row -->
+<form action="workActivityCRUD/delete.php" id="deleteForm" method="POST">
+  <input type="hidden" name="workActivityID_delete" id="workActivityID_delete">
+</form>
+<?php 
+  require('layout/scripts.php');
+?>
+<script>
+  function validateNumberInput() {
+    var inputElement = document.getElementById('score');
+    var inputValue = inputElement.value;
 
-       foreach ($gradeLevels as $grade) {
-    echo "<option value=" . $grade . " data-grd=" . $grade . ">" . $grade . "</option>";
+    // Remove non-numeric characters and decimals using a regular expression
+    inputValue = inputValue.replace(/[^0-9]/g, '');
+
+    // Update the input value with the cleaned numeric value
+    inputElement.value = inputValue;
 }
 
-        ?>
-    </select>
-</div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- Form for deleting a row -->
-<form action="sectionCRUD/delete.php" id="deleteForm" method="POST">
-  <input type="hidden" name="sectionID_delete" id="sectionID_delete">
-</form>
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script>
-      let table = new DataTable('#datatable');
-    </script> 
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</script>
+    
  <script>
     $(document).ready(function(){
       $('#datatable').on('click', '.editBtn', function(){
         //Show modal
-        $('#editTeacherModal').modal('show');
+        $('#editModal').modal('show');
         
         //Get the values on the tablex
         $tr = $(this).closest('tr'); 
@@ -200,34 +208,23 @@
         }).get();
         console.log(data);
         
-        //Check mo yong console at yong index nung array na lalabas yan yong pagkakasunod nun
-        const sectionID = data[0];
-        const sectionName = data[1];
+        const id = data[0];
+        const classID = data[1];
+        const title = data[2];
+        const description = data[3];
+        const dueDate = data[4];
+        const score = data[5];
 
-        //yong data ay galing sa editbtn may data attribute siya
-        const facultyID = $(this).data("facultyid");
-       
-        //nasa table lang to check mo console at index 2 yon
-        const gradeLvl = data[2];
-        console.log(gradeLvl);
-        //Diba may input sa edit modal kunin mo id nila at ilagay yong mga values na meron na tayo ngayon
-        $('#sectionEdit').val(sectionName);
-        $('#sectionIDedit').val(sectionID);
-        //Ang laman ng facultyID variable ay yong id nung teacher kung saang row yong clinick. After nun ichecheck yong data attribute ng
-        // lahat ng option after nun kapag may match yon yong iseselect
-        $('#facultyID_edit option').each(function () {
-            if ($(this).data('facultyid') === facultyID) {
-              $(this).prop('selected', true);
-            }
+        $('#id_edit').val(id);
+        $('#title_edit').val(title);
+        $('#desc_edit').val(description);
+        $('#classID_edit option').each(function(){
+          if($(this).data('classid') == classID){
+            $(this).prop('selected', true);
+          }
         });
-
-        $('#gradeLvl_edit option').each(function () {
-            if ($(this).data('grd') == gradeLvl) {
-              $(this).prop('selected', true);
-            } else {
-              console.log('mali');
-            }
-        });
+        $('#dueDate_edit').val(dueDate);
+        $('#score_edit').val(score);
       });
 
         $('#datatable').on('click', '.deleteBtn', function(){
@@ -240,7 +237,7 @@
             console.log(data);  
 
             //Get the sectionid on the table
-            const sectionID = data[0];
+            const id = data[0];
 
             //show a prompt message to confirm if they want to delete it 
           Swal.fire({
@@ -253,7 +250,7 @@
             confirmButtonText: "Yes"
           }).then((result) => {
             if (result.isConfirmed) {
-              $('#sectionID_delete').val(sectionID);
+              $('#workActivityID_delete').val(id);
               $('#deleteForm').submit();
             }
           });
