@@ -25,25 +25,30 @@
                 <th>Description</th>
                 <th>Due Date</th>
                 <th>Score</th>
+                <th>Download</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <?php 
-              $query = "SELECT w.* FROM workActivity w INNER JOIN class c ON(c.classID = w.class_id)";
+              $query = "SELECT w.*,c.classID,wf.filePath FROM workActivity w INNER JOIN class c ON(c.classID = w.class_id) INNER JOIN workActivity_files wf ON(wf.workActivityID = w.id)";
               $query_run = mysqli_query($conn, $query);
               
               if($query_run) {
                 foreach ($query_run as $row) {
                   echo "
                       <tr>
-                          <td>" . $row['sectionID'] . "</td>
-                          <td>" . $row['sectionName'] . "</td>
-                          <td>" . $row['gradelevel'] . "</td>
-                          <td>" . $row['facultyName'] . "</td>
+                          <td>" . $row['id'] . "</td>
+                          <td>" . $row['classID'] . "</td>
+                          <td>" . $row['actName'] . "</td>
+                          <td>" . $row['actDesc'] . "</td>
+                          <td>" . $row['dueDate'] . "</td>
+                          <td>" . $row['actScore'] . "</td>
+                          <td><a href=". substr($row['filePath'],3) ." target='_blank' download><button class='btn btn-outline-primary'>Download</button></a></td>
+                          
                           <td>
-                              <i style='color:green' class='fi fi-rr-edit editBtn' data-facultyid='" . $row['facultyID'] . "'></i>
-                              <i style='color:red;' class='fi fi-rr-trash deleteBtn'></i>
+                              <i style='color:green' class='fi fi-rr-edit editBtn' data-facultyid=''></i>
+                              <i style='color:red;' class='fi fi-rr-trash deleteBtn' data-id=".$row['id'] ."></i>
                           </td>
                       </tr>";
               }
@@ -53,12 +58,13 @@
             </tbody>
             <tfoot>
               <tr>
-              <th>Work Activity ID</th>
+                <th>Work Activity ID</th>
                 <th>Class ID</th>
                 <th>Activity Title</th>
                 <th>Description</th>
                 <th>Due Date</th>
                 <th>Score</th>
+                <th>Download</th>
                 <th>Actions</th>
               </tr>
             </tfoot>
@@ -128,12 +134,12 @@
             </form>
         </div>
     </div>
-</div>
+  </div>
 </div>
 
 
 <!-- Form for deleting a row -->
-<form action="workActivity/delete.php" id="deleteForm" method="POST">
+<form action="workActivityCRUD/delete.php" id="deleteForm" method="POST">
   <input type="hidden" name="workActivityID_delete" id="workActivityID_delete">
 </form>
 <?php 
@@ -206,7 +212,7 @@
             console.log(data);  
 
             //Get the sectionid on the table
-            const sectionID = data[0];
+            const id = data[0];
 
             //show a prompt message to confirm if they want to delete it 
           Swal.fire({
@@ -219,7 +225,7 @@
             confirmButtonText: "Yes"
           }).then((result) => {
             if (result.isConfirmed) {
-              $('#sectionID_delete').val(sectionID);
+              $('#workActivityID_delete').val(id);
               $('#deleteForm').submit();
             }
           });
