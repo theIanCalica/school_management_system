@@ -29,11 +29,10 @@
 
                       <thead>
                         <tr>
-                          <td>Subject ID</td>
-                          <td>Faculty</td>
-                          <td>Subject Name</td>
-                       
-                          <td>Actions</td>
+                          <th>Subject ID</th>
+                          <th>Faculty</th>
+                          <th>Subject Name</th>
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -63,7 +62,13 @@
                           }
                         }
                        ?>
-                      </tbody>     
+                      </tbody>  
+                      <tfoot>
+                      <th>Subject ID</th>
+                          <th>Faculty</th>
+                          <th>Subject Name</th>
+                          <th>Actions</th>
+                      </tfoot>   
                     </table>
                 </div>
                 

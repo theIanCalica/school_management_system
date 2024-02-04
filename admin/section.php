@@ -19,11 +19,11 @@
           <table id="datatable">
             <thead>
               <tr>
-                <td>Section ID</td>
-                <td>Section Name</td>
-                <td>Grade Level</td>
-                <td>Faculty Name</td>
-                <td>Actions</td>
+                <th>Section ID</th>
+                <th>Section Name</th>
+                <th>Grade Level</td>
+                <th>Faculty Name</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -50,6 +50,13 @@
               }
               ?>
             </tbody>
+            <tfoot>
+            <th>Section ID</th>
+                <th>Section Name</th>
+                <th>Grade Level</td>
+                <th>Faculty Name</th>
+                <th>Actions</th>
+            </tfoot>
           </table>
       </div>
     </div>

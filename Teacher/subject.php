@@ -88,6 +88,9 @@ require('TeacherLayout/sidebar.php');
 </div>
 
   <ul class="list-group" style="width: 100%;">
+    <?php 
+      $query = "SELECT w.* FROM workActivity w INNER JOIN class c ON(c.classID)";
+    ?>
     <li class="list-group-item d-flex justify-content-between align-items-center">
       Homework 1
       <!-- Button trigger modal for Homework 1 -->

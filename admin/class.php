@@ -23,11 +23,10 @@
                         
                       <thead>
                         <tr>
-                          <td>Class ID</td>
-                          <td>Section Name</td>
-                          <td>Subject Name</td>
-                       
-                          <td>Actions</td>
+                          <th>Class ID</th>
+                          <th>Section Name</th>
+                          <th>Subject Name</th>
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -57,6 +56,12 @@
                         }
                        ?>
                       </tbody>     
+                      <tfoot>
+                      <th>Class ID</th>
+                          <th>Section Name</th>
+                          <th>Subject Name</th>
+                          <th>Actions</th>
+                      </tfoot>
                     </table>
                 </div>
                 
