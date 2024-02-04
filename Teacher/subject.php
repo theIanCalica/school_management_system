@@ -39,18 +39,18 @@ require('TeacherLayout/sidebar.php');
 <div class="container-fluid">
     <div class="accordion-container">
         <div class="accordion" id="accordionExample">
-            <!-- Accordion Item #1 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Activities
-                    </button>
-                </h2>
+          <!-- Accordion Item #1 -->
+          <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Activities
+                  </button>
+              </h2>
 
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
 
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Create Activity</button>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Create Activity</button>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -367,26 +367,26 @@ require('TeacherLayout/sidebar.php');
 </div>
                     </div>
                 </div>
-            </div>
+    
 
 
 
 
 
-            <!-- Accordion Item #2 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Learning Materials
-                    </button>
-                </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
+  <!-- Accordion Item #2 -->
+  <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Learning Materials
+          </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-  Upload Material
-</button>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Upload Material
+      </button>
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -511,7 +511,7 @@ require('TeacherLayout/sidebar.php');
 </div>
                     </div>
                 </div>
-            </div>
+            
 
 
           <div class="accordion-item">
@@ -599,13 +599,14 @@ require('TeacherLayout/sidebar.php');
 </table>
 <button type="submit" class="btn btn-outline-primary w-100 mx-3">Submit</button>
 </form>
+</div>
         </div>
     </div>
   </div>
 </div>
   </div>
 </div>
-
+</div>
     </div>
 </div>
 

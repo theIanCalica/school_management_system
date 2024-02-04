@@ -16,7 +16,7 @@
     }
     
     if ($allFilesEmpty) {
-        $query = "UPDATE workActivity SET "
+        $query = "UPDATE workActivity SET class_id = ?, actName = ?, actDesc = ?, dueDate = ?, actScore = ? ";
     } else {
         echo "meron";
     }
