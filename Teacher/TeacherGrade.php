@@ -1,74 +1,38 @@
-<?php session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
 <?php 
-    require('../db/config.php');
+session_start();
+
+require('TeacherLayout/header.php');
+require('TeacherLayout/topbar.php');
+require('../db/config.php');
+
 ?>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    
-    <title>Grades Records</title>
-</head>
 
 <body>
-  
-    <div class="side-menu">
-        <div class="brand-name">
-            <h1>Brand</h1>
-        </div>
-        <ul>
-            <li><span><a href="admin.php">Dashboard</a></span></li>
-            <li><span><a href="studentrecords.php">Students</a></span></li>
-            <li><span><a href="teacherrecords.php">Teachers</a></span></li>
-            <li><span><a href="parentrecords.php">Parents</a></span></li>
-            <li><span><a href="income_link.php">Income</a></span></li>
-            <li><span><a href="settings_link.php">Settings</a></span></li>
-        </ul>
+ 
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo">Add grades</button>
+<div id="wrapper">
 
-    </div>
-    <div class="container">
-        <div class="header">
-            <div class="nav">
-                <div class="search">
-                    <input type="text" placeholder="Search..">
-                    <button type="submit"><img src="search.png" alt=""></button>
-                </div>
-                <div class="user">
-                    <a href="#" class="btn">Add New</a>
-                    <img src="notifications.png" alt="">
-                    <div class="img-case">
-                        <img src="user.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content">
-
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo">Add activity</button>
+<?php
+require('TeacherLayout/sidebar.php');
+?>
 
             <div class="cards">
             </div>
             <div class="content-2">
                 <div class="recent-payments">
                     <div class="title">
-                        <h2>Course Materials Records</h2>
+                        <h2>Student Grades</h2>
                     </div>
                     <table id="datatable">
                       <thead>
                         <tr>
                           <td>Grades ID</td>
                           <td>Student Name</td>
-                          <td>Section Name</td>
-                          <td>Activity Name</td>
-                          <td>Score</td>
+                          <td>Quarter</td>
+                          <td>School Year</td>
+                          <td>Written Work</td>
+                          <td>Performance Task</td>
+                          <td>Assessment</td>
                           <td>Actions</td>
                         </tr>
                       </thead>
@@ -83,15 +47,16 @@
                               <tr>
                                     <td>" . $row['gradesID'] ."</td>
                                     <td>" . $row['studentFirstName'] . $row['studentLastName'] ."</td>
-                                    <td>" . $row['sectionName'] ."</td>
-                                    <td>" . $row['activityName'] ."</td>
-                                    <td>" . $row['score'] ."</td>
+                                    <td>" . $row['quarter'] ."</td>
+                                    <td>" . $row['schoolYear'] ."</td>
+                                    <td>" . $row['writtenWork'] ."</td>
+                                    <td>" . $row['performanceTask'] ."</td>
+                                    <td>" . $row['assessment'] ."</td>
+                                    <td>" . $row['actions'] ."</td>
                                     <td>
                                   <i style='color:green' class='fi fi-rr-edit editBtn'></i>
-                                  <i style='color:red;' class='fi fi-rr-trash deleteBtn'></i>
-                                  
-                                </td>
-                                
+                                  <i style='color:red;' class='fi fi-rr-trash deleteBtn'></i>          
+                                </td>   
                               </tr>
                             ";
                           }
@@ -104,23 +69,22 @@
         </div>
     </div>
 
-
 <!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="modalHeader" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalHeader">Add Grade</h1>
+                <h1 class="modal-title fs-5" id="modalHeader">Add Student Grade</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
-            <form action="assignmentCRUD/create.php" class="needs-validation" novalidate method="post">
+            <form action="teacherGradeCRUD/create.php" class="needs-validation" novalidate method="post">
                 <div class="modal-body">
 
                 <!--STUDENT SELECT NAME-->
                    <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Student Name</label>
-              <select name="class" class="form-select" aria-label="Default Select Example" required>
+              <select name="studentID" class="form-select" aria-label="Default Select Example" required>
                 <option value=""selected disabled>Select a class</option>
                   <?php 
           $query = "SELECT * FROM students WHERE studentID=?";
@@ -134,82 +98,48 @@
                   ?>
               </select>
               <div class="invalid-feedback">Student name is required.</div>
-          </div>
-
-                <!--STUDENT SELECT SECTION-->
-                   <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">Section</label>
-              <select name="class" class="form-select" aria-label="Default Select Example" required>
-                <option value=""selected disabled>Select a section</option>
-                  <?php 
-          $query = "SELECT sections.*, subject.*, sections.* FROM students INNER JOIN students ON students.sectionID = sections.sectionID INNER JOIN subject ON students.subjectID = subject.subjectID;";
-                                          $query_run = mysqli_query($conn,$query);
-                                          
-                                          if ($query_run) {
-                                              foreach ($query_run as $row) {
-                                                  echo "<option value=" . $row['studentID'] .">" .  $row['studentFirstName'] . "-" . $row['studentLastName'] . "</option>";
-                                              }
-                                            }
-                  ?>
-              </select>
-              <div class="invalid-feedback">Student name is required.</div>
-          </div>
+          </div>    
 
 
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Quarter</label>
+            <select name="quarter" class="form-select" aria-label="Default Select Example" id="quarter_edit" required>
+                <?php 
+                // Assuming the grade levels are predefined
+                $schoolQuarter = array(1, 2, 3, 4);
 
-          
-                <!--STUDENT SELECT ACTIVITY-->
-                   <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">Activity Name</label>
-              <select name="class" class="form-select" aria-label="Default Select Example" required>
-                <option value=""selected disabled>Select an activity</option>
-                  <?php 
-          $query = "SELECT students.*, subject.*, sections.* FROM students INNER JOIN students ON students.sectionID = sections.sectionID INNER JOIN subject ON students.subjectID = subject.subjectID;";
-                                          $query_run = mysqli_query($conn,$query);
-                                          
-                                          if ($query_run) {
-                                              foreach ($query_run as $row) {
-                                                  echo "<option value=" . $row['studentID'] .">" .  $row['studentFirstName'] . "-" . $row['studentLastName'] . "</option>";
-                                              }
-                                            }
-                  ?>
-              </select>
-              <div class="invalid-feedback">Student name is required.</div>
-          </div>
+                foreach ($schoolQuarter as $quarter) {
+                  echo '<option value="' . $quarter . '" data-schoolQuarterl="' . $quarter . '">' . $quarter . '</option>';
 
+                }
+                ?>
+            </select>
 
-          
-                 
                     <div class="mb-3">
-                        <label for="regionNameID" class="form-label">Duedate</label>
-                        <input type="date" class="form-control" id="duedate" name="duedate" required></input>
-                       <div class="invalid-feedback">Duedate is required</div>
-                      </div>
+                        <label for="regionNameID" class="form-label">School Year</label>
+                        <input type="text" id="schoolyear" name="schoolyear" pattern="\d{4}-\d{4}" title="Enter a valid school year in the format YYYY-YYYY" required>
+                        <div class="invalid-feedback">School year is required</div>
+                    </div>
+          
+                    <div class="mb-3">
+                        <label for="regionNameID" class="form-label">Written Work</label>
+                        <input type="number" id="writtenwork" name="writtenwork" step="0.01" required>
+                        <div class="invalid-feedback">Written work is required</div>
+                    </div>
 
+                    <div class="mb-3">
+                        <label for="regionNameID" class="form-label">Performance Task</label>
+                        <input type="number" id="performancetask" name="performancetask" step="0.01" required>
+                        <div class="invalid-feedback">Performance Task is required</div>
+                    </div>
 
-                                              <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">Assigned Class</label>
-              <select name="class" class="form-select" aria-label="Default Select Example" required>
-                <option value=""selected disabled>Select a class</option>
-                  <?php 
-          $query = "SELECT class.*, subject.*, sections.* FROM class INNER JOIN sections ON class.sectionID = sections.sectionID INNER JOIN subject ON class.subjectID = subject.subjectID;";
-                                          $query_run = mysqli_query($conn,$query);
-                                          
-                                          if ($query_run) {
-                                              foreach ($query_run as $row) {
-                                                  echo "<option value=" . $row['classID'] .">" .  $row['subjecName'] . "-" . $row['sectionName'] ."</option>";
-                                              }
-                                            }
-                  ?>
-              </select>
-              <div class="invalid-feedback">Class is required.</div>
-          </div>
-
+                    <div class="mb-3">
+                        <label for="regionNameID" class="form-label">Assessment</label>
+                        <input type="number" id="assessment" name="assessment" step="0.01" required>
+                        <div class="invalid-feedback">Assessment is required</div>
+                    </div>
                 </div>
                 
-
-
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -225,49 +155,72 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalHeader">Edit Learning Materials</h1>
+                <h1 class="modal-title fs-5" id="modalHeader">Edit Student Grades</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-           <form action="learningmaterialsCRUD/update.php" class="needs-validation" novalidate method="post" enctype="multipart/form-data">
-            <input type="hidden" name="learningmaterialid" id="learningmaterialid_edit">
+           <form action="teacherGradeCRUD/update.php" class="needs-validation" novalidate method="post">
+            <input type="hidden" name="learningmaterialid" id="teachergrade_edit">
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="regionNameID" class="form-label">Topic Name</label>
-                        <input type="text" class="form-control" id="activityname" name="activityname" required>
-                        <div class="invalid-feedback">Topic Name is required</div>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="regionNameID" class="form-label">Topic Description</label>
-                        <textarea class="form-control" id="activitydescription" name="activitydescription" required></textarea>
-                        <div class="invalid-feedback">Topic Description is required</div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="fileUpload" class="form-label">Upload File</label>
-                        <input type="file" class="form-control" id="uploadFile_edit" name="uploadfile[]">
-                    </div>
-                </div>
-
-            <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">Assigned Class</label>
-              <select name="class" class="form-select" aria-label="Default Select Example" id="classid_edit" required>
-                <option value=""selected disabled>Select a class</option>
+                   <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Student Name</label>
+              <select name="studentID_edit" class="form-select" aria-label="Default Select Example" required>
+                <option value=""selected disabled>Select student</option>
                   <?php 
-          $query = "SELECT class.*, subject.*, sections.* FROM class INNER JOIN sections ON class.sectionID = sections.sectionID INNER JOIN subject ON class.subjectID = subject.subjectID;";
+          $query = "SELECT * FROM students WHERE studentID=?";
                                           $query_run = mysqli_query($conn,$query);
                                           
                                           if ($query_run) {
                                               foreach ($query_run as $row) {
-                                                  echo "<option value=" . $row['classID'] ." data-classid=".$row['classID'].">" .  $row['subjectName'] . "-" . $row['sectionName'] ."</option>";
+                                                  echo "<option value=" . $row['studentID'] .">" .  $row['studentFirstName'] . "-" . $row['studentLastName'] . "</option>";
                                               }
                                             }
                   ?>
               </select>
-              <div class="invalid-feedback">Class is required.</div>
-          </div>
+              <div class="invalid-feedback">Student name is required.</div>
+          </div>    
 
+
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Quarter</label>
+            <select name="quarter_edit" class="form-select" aria-label="Default Select Example" id="quarter_edit" required>
+                <?php 
+                // Assuming the grade levels are predefined
+                $schoolQuarter = array(1, 2, 3, 4);
+
+                foreach ($schoolQuarter as $quarter) {
+                  echo '<option value="' . $quarter . '" data-schoolQuarterl="' . $quarter . '">' . $quarter . '</option>';
+
+                }
+                ?>
+            </select>
+
+                    <div class="mb-3">
+                        <label for="regionNameID" class="form-label">School Year</label>
+                        <input type="text" id="schoolyear_edit" name="schoolyear_edit" pattern="\d{4}-\d{4}" title="Enter a valid school year in the format YYYY-YYYY" required>
+                        <div class="invalid-feedback">School year is required</div>
+                    </div>
+          
+                    <div class="mb-3">
+                        <label for="regionNameID" class="form-label">Written Work</label>
+                        <input type="number" id="writtenwork_edit" name="writtenwork_edit" step="0.01" required>
+                        <div class="invalid-feedback">Written work is required</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="regionNameID" class="form-label">Performance Task</label>
+                        <input type="number" id="performancetask_edit" name="performancetask_edit" step="0.01" required>
+                        <div class="invalid-feedback">Performance Task is required</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="regionNameID" class="form-label">Assessment</label>
+                        <input type="number" id="assessment_edit" name="assessment_edit" step="0.01" required>
+                        <div class="invalid-feedback">Assessment is required</div>
+                    </div>
+                </div>
+                
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -278,8 +231,8 @@
 </div>
 
 <!-- Form for deleting a row -->
-<form action="assignmentCRUD/delete.php" id="deleteForm" method="POST">
-  <input type="hidden" name="activityname_delete" id="activityname_delete">
+<form action="teacherGradeCRUD/delete.php" id="deleteForm" method="POST">
+  <input type="hidden" name="grade_delete" id="grade_delete">
 </form>
 
 
@@ -394,6 +347,6 @@
     unset($_SESSION['status']);
      unset($_SESSION['status_code']);
   ?>
-?>
+</div>
   </body>
 </html>

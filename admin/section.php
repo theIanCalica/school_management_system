@@ -1,5 +1,5 @@
 <?php 
-  require('phpcodes/connection.php');+
+  require('phpcodes/connection.php');
   require('layout/header.php');
   require('layout/sidebar.php');
 ?>
@@ -8,7 +8,7 @@
     require('layout/navbar.php');
   ?>
 <div class="content">
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo" style="margin-left: 20px; margin-bottom: 2px; background-color: red; border: 0; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.10),0 17px 50px 0 rgba(0,0,0,0.10); ">Open modal for @mdo</button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo" style="margin-left: 20px; margin-bottom: 2px; background-color: red; border: 0; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.10),0 17px 50px 0 rgba(0,0,0,0.10); ">Add Section</button>
     <div class="cards">
     </div>
       <div class="content-2">
@@ -67,14 +67,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="sectionCRUD/create.php">
+                <form method="post" action="sectionCRUD/create.php" novalidate class="needs-validation">
                     <div class="mb-3">
                         <label for="sectionname" class="col-form-label">Section Name:</label>
-                        <input type="text" class="form-control" id="sectionname" name="sectionname">
+                        <input type="text" class="form-control" id="sectionname" name="sectionname" required>
+                        <div class="invalid-feedback">Section name is required</div>
                     </div>
     <div class="mb-3">
     <label for="recipient-name" class="col-form-label">Faculty Name</label>
-    <select name="facultyID" class="form-select" aria-label="Default Select Example">
+    <select name="facultyID" class="form-select" aria-label="Default Select Example" required>
         <?php 
 
         $query = "SELECT * FROM faculty";
@@ -87,10 +88,11 @@
       
         ?>
     </select>
+    <div class="invalid-feedback">Faculty name is required</div>
 </div>
 
     <div class="mb-3">
-    <label for="recipient-name" class="col-form-label">Grade Level</label>
+    <label for="recipient-name" class="col-form-label" required>Grade Level</label>
     <select name="gradelvl" class="form-select" aria-label="Default Select Example">
         <?php 
         // Assuming the grade levels are predefined
@@ -109,6 +111,7 @@
                 </form>
             </div>
         </div>
+        <div class="invalid-feedback">Grade level is required</div>
     </div>
 </div>
 
@@ -179,14 +182,9 @@
 </form>
 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script>
-      let table = new DataTable('#datatable');
-    </script> 
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<?php
+require('layout/scripts.php');
+?>
  <script>
     $(document).ready(function(){
       $('#datatable').on('click', '.editBtn', function(){
