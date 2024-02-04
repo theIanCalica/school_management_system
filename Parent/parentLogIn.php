@@ -93,7 +93,9 @@
         <!-- END # MODAL LOGIN -->
    
 
-        
+<button type="button" class="btn btn-primary" onclick="window.location.href='../main/SchoolPortal.html'" style="margin-top: 25px; margin-left: 25px; border: 2px solid; border-radius: 10px;">Go back</button>
+
+
 
 <div class="form-container">
     <form action="verify.php" method="post">

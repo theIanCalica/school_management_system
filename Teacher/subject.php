@@ -368,9 +368,6 @@ require('TeacherLayout/sidebar.php');
             </div>
 
 
-
-
-
             <!-- Accordion Item #2 -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
