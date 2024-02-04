@@ -1,7 +1,9 @@
 <?php
 require('ParentLayout/header.php');
 require('ParentLayout/topbar.php');
+
 require('../db/config.php');
+
 $parentID = $_SESSION['parentID'];
 $query = "SELECT * FROM parents WHERE parentID = ?";
 $stmt = mysqli_prepare($conn,$query);
