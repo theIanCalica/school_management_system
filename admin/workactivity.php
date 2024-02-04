@@ -79,7 +79,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="post" action="workActivity/create.php" class="needs-validation" novalidate>
+          <form method="post" action="workActivityCRUD/create.php" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="col-form-label">Work activity title</label>
                 <input type="text" class="form-control" id="title" name="title" required>
@@ -115,6 +115,11 @@
             <div class="mb-3">
               <label for="score" class="col-form-label">Score</label>
               <input type="number" name="score" id="score" class="form-control" step="1" required oninput="validateNumberInput()" />
+              <div class="invalid-feedback">Score is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="score" class="col-form-label">Files</label>
+              <input type="file" name="files[]" id="files" class="form-control" multiple>
             </div>
         </div>
         <div class="modal-footer">
