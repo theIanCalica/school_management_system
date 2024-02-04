@@ -7,9 +7,7 @@
   <?php 
     require('layout/navbar.php');
   ?>
-
-    
-    <div class="content">
+<div class="content">
   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo" style="margin-left: 20px; margin-bottom: 2px; background-color: red; border: 0; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.10),0 17px 50px 0 rgba(0,0,0,0.10); ">Open modal for @mdo</button>
     <div class="cards">
     </div>
