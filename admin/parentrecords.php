@@ -1,110 +1,77 @@
-<?php session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
 <?php 
-    require('phpcodes/connection.php');
+  require('layout/header.php');
+  require('phpcodes/connection.php');
+  require('layout/sidebar.php');
 ?>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    
-    <title>Admin Teacher Records</title>
-</head>
-
-<body>
-  
-    <div class="side-menu">
-        <div class="brand-name">
-            <h1>Brand</h1>
-        </div>
-        <ul>
-            <li><span><a href="admin.php">Dashboard</a></span></li>
-            <li><span><a href="studentrecords.php">Students</a></span></li>
-            <li><span><a href="teacherrecords.php">Teachers</a></span></li>
-            <li><span><a href="parentrecords.php">Parents</a></span></li>
-            <li><span><a href="income_link.php">Income</a></span></li>
-            <li><span><a href="settings_link.php">Settings</a></span></li>
-        </ul>
-
-    </div>
-    <div class="container">
-        <div class="header">
-            <div class="nav">
-                <div class="search">
-                    <input type="text" placeholder="Search..">
-                    <button type="submit"><img src="search.png" alt=""></button>
-                </div>
-                <div class="user">
-                    <a href="#" class="btn">Add New</a>
-                    <img src="notifications.png" alt="">
-                    <div class="img-case">
-                        <img src="user.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content">
+ 
+<div class="container">
+  <?php 
+    require('layout/navbar.php');
+  ?>
+    <div class="content">
 
 
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addParentModal" data-bs-whatever="@mdo" style="margin-left: 20px; margin-bottom: 2px; background-color: red; border: 0; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.10),0 17px 50px 0 rgba(0,0,0,0.10); ">Add Parent</button>
 
-            <div class="cards">
-            </div>
-            <div class="content-2">
-                <div class="recent-payments">
-                    <div class="title">
-                        <h2>Parent Records</h2>
-                    </div>
-                    <table id="datatable">
-                      <thead>
-                        <tr>
-                          <td>Parent ID</td>
-                          <td>First Name</td>
-                          <td>Last Name</td>
-                          <td>Mobile Number</td>
-                          <td>Email Address</td>
-                          <td>Actions</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                                                  <?php
-                            $query = "SELECT * FROM parents";
-                            $query_run = mysqli_query($conn, $query);
-
-                            if ($query_run) {
-                                foreach ($query_run as $row) {
-                                    echo "
-                                      <tr>
-                                        <td>" . $row['parentID'] . "</td>
-                                        <td>" . $row['parentFirstName'] . "</td>
-                                        <td>" . $row['parentLastName'] . "</td>
-                                        <td>" . $row['parentMobileNo'] . "</td>
-                                        <td>" . $row['parentEmailAdd'] . "</td>
-                                        
-
-                                        <td>
-                                          <i style='color:green' class='fi fi-rr-edit editBtn'></i>
-                                          <i style='color:red;' class='fi fi-rr-trash deleteBtn'></i>
-                                        </td>
-
-                                      </tr>
-                                    ";
-                                }
-                            }
-                            ?>
-                      </tbody>
-                    </table>
+        <div class="cards">
+        </div>
+        <div class="content-2">
+            <div class="recent-payments">
+                <div class="title">
+                    <h2>Parent Records</h2>
                 </div>
-                
+                <table id="datatable">
+                  <thead>
+                    <tr>
+                      <th>Parent ID</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Mobile Number</th>
+                      <th>Email Address</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                                              <?php
+                        $query = "SELECT * FROM parents";
+                        $query_run = mysqli_query($conn, $query);
+
+                        if ($query_run) {
+                            foreach ($query_run as $row) {
+                                echo "
+                                  <tr>
+                                    <td>" . $row['parentID'] . "</td>
+                                    <td>" . $row['parentFirstName'] . "</td>
+                                    <td>" . $row['parentLastName'] . "</td>
+                                    <td>" . $row['parentMobileNo'] . "</td>
+                                    <td>" . $row['parentEmailAdd'] . "</td>
+                                    
+
+                                    <td>
+                                      <i style='color:green' class='fi fi-rr-edit editBtn'></i>
+                                      <i style='color:red;' class='fi fi-rr-trash deleteBtn'></i>
+                                    </td>
+
+                                  </tr>
+                                ";
+                            }
+                        }
+                        ?>
+                  </tbody>
+                  <tfoot>
+                  <th>Parent ID</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Mobile Number</th>
+                      <th>Email Address</th>
+                      <th>Actions</th>
+                  </tfoot>
+                </table>
             </div>
+            
         </div>
     </div>
+</div>
 
 <!-- Add modal -->
 <div class="modal fade" id="addParentModal" tabindex="-1" aria-labelledby="modalHeader" aria-hidden="true">

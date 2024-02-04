@@ -4,22 +4,9 @@
 ?>
  
 <div class="container">
-    <div class="header">
-        <div class="nav">
-            <div class="search">
-                <input type="text" placeholder="Search..">
-                <button type="submit"><img src="search.png" alt=""></button>
-            </div>
-            <div class="user">
-                <a href="#" class="btn btn-primary">Add New</a>
-                <img src="notifications.png" alt="">
-                <div class="img-case">
-                    <img src="user.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <?php 
+        require('layout/navbar.php');
+    ?>
     <div class="content">
                       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo" style="margin-left: 20px; margin-bottom: 2px; background-color: red; border: 0; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.10),0 17px 50px 0 rgba(0,0,0,0.10); ">Add Teacher</button>
         <div class="content-2">
@@ -64,6 +51,14 @@
                             }
                         ?>
                     </tbody>
+                    <tfoot>
+                      <th>Faculty ID</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Mobile Number</th>
+                      <th>Email Address</th>
+                      <th>Actions</th>
+                    </tfoot>
                 </table>
             </div>
         </div>

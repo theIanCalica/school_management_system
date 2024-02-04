@@ -72,10 +72,20 @@
                           }
                         }
                        ?>
-                      </tbody>     
+                      </tbody> 
+                      <tfoot>
+                        <th>Student ID</th>
+                        <th>Parent ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Mobile Number</th>
+                        <th>Email Address</th>
+                        <th>Birthdate</th>
+                        <th>Section</th>
+                        <th>Actions</th>
+                      </tfoot>    
                     </table>
                 </div>
-                
             </div>
         </div>
     </div>

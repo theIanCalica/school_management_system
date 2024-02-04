@@ -1,56 +1,12 @@
-<?php session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
 <?php 
-    require('phpcodes/connection.php');
+  require('phpcodes/connection.php');+
+  require('layout/header.php');
+  require('layout/sidebar.php');
 ?>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    
-    <title>Admin Teacher Records</title>
-</head>
-
-<body>
-  <div class="side-menu">
-      <div class="brand-name">
-          <h1>Brand</h1>
-      </div>
-      <ul>
-        
-            <li><span class="links"><a href="admin.php">Dashboard</a></span></li>
-            <li><span class="links"><a href="studentrecords.php">Students</a></span></li>
-            <li><span class="links"><a href="teacherrecords.php">Teachers</a></span></li>
-            <li><span class="links"><a href="parentrecords.php">Parents</a></span></li>
-            <li><span class="links"><a href="section.php">Sections</a></span></li>
-            <li><span class="links"><a href="subject.php">Subjects</a></span></li>
-            <li><span class="links"><a href="class.php">Classes</a></span></li>
-       
-      </ul>
-
-  </div>
 <div class="container">
-    <div class="header">
-        <div class="nav">
-            <div class="search">
-                <input type="text" placeholder="Search..">
-                <button type="submit"><img src="search.png" alt=""></button>
-            </div>
-            <div class="user">
-                <a href="#" class="btn">Add New</a>
-                <img src="notifications.png" alt="">
-                <div class="img-case">
-                    <img src="user.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
+  <?php 
+    require('layout/navbar.php');
+  ?>
 
     
     <div class="content">
