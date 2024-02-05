@@ -31,7 +31,7 @@
             </thead>
             <tbody>
               <?php 
-              $query = "SELECT w.*,c.classID,wf.filePath FROM workActivity w INNER JOIN class c ON(c.classID = w.class_id) INNER JOIN workActivity_files wf ON(wf.workActivityID = w.id)";
+              $query = "SELECT w.*,c.classID FROM workActivity w INNER JOIN class c ON(c.classID = w.class_id)";
               $query_run = mysqli_query($conn, $query);
               
               if($query_run) {
@@ -125,7 +125,7 @@
             </div>
             <div class="mb-3">
               <label for="score" class="col-form-label">Files</label>
-              <input type="file" name="files[]" id="files" class="form-control" multiple>
+              <input type="file" name="files[]" id="files" class="form-control">
             </div>
         </div>
         <div class="modal-footer">

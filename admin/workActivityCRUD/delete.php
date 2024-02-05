@@ -5,6 +5,13 @@
   if(isset($_POST['workActivityID_delete'])){
     print_r($_POST);
     $id = trim($_POST['workActivityID_delete']);
+   $query = "SELECT filePath FROM workactivity";
+   $query_run = mysqli_query($conn,$query);
+   if($query_run){
+    foreach($query_run as $row){
+      unlink($row['filePath']);
+    }
+   }
     $query = "DELETE FROM workActivity WHERE id = ?";
     $stmt = mysqli_prepare($conn,$query);
     $stmt->bind_param("i", $id);
