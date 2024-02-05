@@ -95,7 +95,7 @@
    <button type="button" class="btn btn-primary" onclick="window.location.href='../main/SchoolPortal.html'" style="margin-top: 25px; margin-left: 25px; border: 2px solid; border-radius: 10px;">Go back</button>
 
 
-<div class="form-container">
+<div class="form-container" style="z-index: 1000; text-align: center;">
     <form action="verify.php" method="post">
 
         <div class="form-group">

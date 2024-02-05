@@ -97,7 +97,7 @@
 
 
 
-<div class="form-container">
+<div class="form-container" style="z-index: 1000; text-align: center;">
     <form action="verify.php" method="post">
 
         <div class="form-group">
