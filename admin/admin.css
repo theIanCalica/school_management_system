@@ -98,19 +98,7 @@ td {
     background: #f1f1f1;
 }
 
-.container .header {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 80;
-    height: 10vh;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
+
 
 .container .header .nav {
     width: 90%;

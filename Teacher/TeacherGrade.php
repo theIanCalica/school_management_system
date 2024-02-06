@@ -1,8 +1,10 @@
 <?php 
+
 require('TeacherLayout/header.php');
 require('TeacherLayout/topbar.php');
 require('../db/config.php');
 
+if (isset($yourArray['sectionID'])) {
 $sectionID = trim($_SESSION['sectionID']);
 $classID = trim($_SESSION['classID']);
 $query = "SELECT subjectID FROM class WHERE classID = $classID";
@@ -13,7 +15,7 @@ if($query_run){
   }
 }
   echo $subjectID;
-
+}
 ?>
 
 <body>

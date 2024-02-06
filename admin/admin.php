@@ -2,7 +2,7 @@
     require('layout/header.php');
     require('layout/sidebar.php');
 ?>
- 
+ <body>
  <div class="container">
       <?php 
         require('layout/navbar.php');

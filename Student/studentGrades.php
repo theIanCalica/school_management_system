@@ -3,6 +3,8 @@
 require('../db/config.php');
 require('StudentLayout/header.php');
 require('StudentLayout/topbar.php');
+
+
 $studentID = $_SESSION['studentID'];
 $quarter = 1;
 if(isset($_GET['quarter'])){

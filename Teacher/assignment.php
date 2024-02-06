@@ -28,29 +28,29 @@ require('TeacherLayout/sidebar.php');
                       <thead>
                         <tr>
                           <td>Work Activity ID</td>
-                          <td>Activity Name</td>
-                          <td>Activity Description</td>
-                          <td>File</td>
-                          <td>Duedate</td>
                           <td>Class ID</td>
+                          <td>Name</td>
+                          <td>Description</td>
+                          <td>Duedate</td>
+                          <td>File</td>
                           <td>Actions</td>
                         </tr>
                       </thead>
                       <tbody>
                        <?php 
-                        $query = "SELECT * FROM workactivity";
+                        $query = "SELECT w.*,c.classID,wf.filePath FROM workActivity w INNER JOIN class c ON(c.classID = w.class_id) INNER JOIN workActivity_files wf ON(wf.workActivityID = w.id)";
                         $query_run = mysqli_query($conn, $query);
                         
                         if($query_run) {
                           foreach($query_run as $row){
                             echo "
                               <tr>
-                                <td>" . $row['workActivityID'] ."</td>
+                                <td>" . $row['id'] ."</td>
+                                <td>" . $row['classID'] ."</td>
                                 <td>" . $row['actName'] ."</td>
                                 <td>" . $row['actDesc'] ."</td>
-                                <td>" . $row['actUploadFile'] ."</td>
-                                <td>" . $row['actSetDueDate'] ."</td>
-                                <td>" . $row['classID'] ."</td>
+                                <td>" . $row['duedate'] ."</td>
+                                <td><a href=". substr($row['filePath'],3) ." target='_blank' download><button class='btn btn-outline-primary'>Download</button></a></td>
                                 <td>
                                   <i style='color:green' class='fi fi-rr-edit editBtn'></i>
                                   <i style='color:red;' class='fi fi-rr-trash deleteBtn'></i>
@@ -148,7 +148,7 @@ require('TeacherLayout/sidebar.php');
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-           <form action="learningmaterialsCRUD/update.php" class="needs-validation" novalidate method="post" enctype="multipart/form-data">
+           <form action="assignmentCRUD/update.php" class="needs-validation" novalidate method="post" enctype="multipart/form-data">
             <input type="hidden" name="learningmaterialid" id="learningmaterialid_edit">
                 <div class="modal-body">
                     <div class="mb-3">
